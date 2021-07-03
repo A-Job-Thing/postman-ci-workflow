@@ -18,5 +18,4 @@ jobs:
           apiKey: ${{ secrets.postmanApiKey }}
           collection: 16486240-5b7143b0-1821-4440-9200-9f9df7cb1d76
       - name: Run Postman Collections
-        run: |
-          echo ${{ steps.run-newman.outputs.summary }}
+        run: echo ${{ steps.run-newman.outputs.summary }}
