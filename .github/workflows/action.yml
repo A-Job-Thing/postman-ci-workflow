@@ -20,6 +20,7 @@ jobs:
         run: |
           npm install -g newman
       - name: Hooks postman collections
+        uses: anthonyvscode/newman-action@v1
         with:
           apiKey: ${{ secrets.postmanApiKey }}
           collection: 16486240-5b7143b0-1821-4440-9200-9f9df7cb1d76
