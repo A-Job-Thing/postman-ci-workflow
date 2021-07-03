@@ -1,7 +1,7 @@
 name: Github Workflow for Postman
 
 on:
-  pull_request:
+  push:
     branches:
     - master
 
