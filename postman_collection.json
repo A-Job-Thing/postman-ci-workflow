@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "5b7143b0-1821-4440-9200-9f9df7cb1d76",
+		"name": "A Job Thing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Jobseeker Applications",
+			"item": [
+				{
+					"name": "Retrieve Jobseeker Applications",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// get the status response\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// check if headers is set\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"\r",
+									"// 2500 is roughly estimation\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2500);\r",
+									"});\r",
+									"\r",
+									"// test for contains value in response\r",
+									"pm.test(\"Test value\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.isFacebook).to.eql(\"Pending\");\r",
+									"});\r",
+									"\r",
+									"// test that response expect to be json\r",
+									"pm.test(\"Expected result is JSON\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic bWs6a2lsbGpz",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLm1hdWtlcmphLm15Iiwic3ViIjoiMjcwMzEwIiwiZXhwIjoxNjU2NjMzNjAwLCJ1c2VyIjp7Im5hbWUiOiJBeWFtIiwidXNlcl9pZCI6IjI3MDMxMCIsInBob25lX3ZlcmlmaWVkIjoieWVzIiwiZW1haWxfdmVyaWZpZWQiOiJ5ZXMiLCJiYW5uZWQiOmZhbHNlfSwicm9sZXMiOlsiUk9MRV9KT0JTRUVLRVIiXX0.mjRHFgeypZ_Jec6--OQKUj7EvnbFkKf6xStPfnCS9YY",
+								"type": "text"
+							},
+							{
+								"key": "auth",
+								"value": "b72d6ec0-803b-47b2-b994-2116dc568a8a",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://test.maukerja.my/api/mobile/jobseeker/applications/list/page/1/en",
+							"protocol": "https",
+							"host": [
+								"test",
+								"maukerja",
+								"my"
+							],
+							"path": [
+								"api",
+								"mobile",
+								"jobseeker",
+								"applications",
+								"list",
+								"page",
+								"1",
+								"en"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Jobseeker Login",
+			"item": [
+				{
+					"name": "Login as Jobseeker",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has OK response\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"rasahndelokndelok@gmail.com\",\r\n    \"password\" : \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://test2.maukerja.my/login",
+							"protocol": "https",
+							"host": [
+								"test2",
+								"maukerja",
+								"my"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
