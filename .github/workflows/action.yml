@@ -10,9 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: matt-ball/newman-action@master
+      - name: Install node
+        uses: actions/setup-node@v1
         with:
-          collection: postman_collection.json
+          node-version: "14.x"
+      - name: Install newman reporter
+        run: |
+          npm install -g newman
       - name: Run Postman Collections
         run: |
-          newman run postman_collection.json
+          newman run ./postman_collection.json
