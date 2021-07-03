@@ -2,9 +2,73 @@
 	"info": {
 		"_postman_id": "5b7143b0-1821-4440-9200-9f9df7cb1d76",
 		"name": "A Job Thing",
+		"description": "[![Build Status](https://travis-ci.com/ryanfeb14/automation-testing.svg?branch=master)](https://travis-ci.com/ryanfeb14/automation-testing)\n\nThis APIs collection is related between API integration for Backend side and Mobile team\n\n#### Usage\n\nJust select `Run in Postman` command on top right of the navigation\n\n#### Environment\n\nThis APIs collection includes a pre-configured Environment. You will need to set up the following variables in order to run each request (depending on the authentication type used by the request you are sending):\n\n| Name | Description |\n| ---- | ----------- |\n| {{Authorization}} | User authorization, using `Basic` Auth method |\n| {{auth}} | User authentication\n| {{token}} | User token |\n| {{email}} | User email |\n| {{password}} | User password |\n\nIf you've related question about this configured Environment, please ask guidance to Ryan Febriansyah (our Test Engineer) or mas Randy (our Tech Lead)\n\n#### Automation Testcase\n\nThis APIs collection also has a several API test scripts that will automatically running parallel if you start the Postman. Somehow, some test scripts will led into a failure one because API response time\n\nAll automation results is integrated into TravisCI, so you might be looking up for that result as well, or rather you can see it on the `Summary` after running the test on Postman desktop.\n\n**Note** for the TravisCI status, if the status is failing there are several reasons why it's happening:\n- Internal changes for test script in codebase\n- Test scenario for API response time exceeds than limitation (set to 2500ms)\n- In postman collection, the failed test still not updated yet\n- External changes for API (whether its happen on the payload, endpoint or something else)\n\nThis API will be collected periodically for twice per every week, due limitation for hooks the postman collection, TravisCI usage and pushed into github repo, temporary the runner will be managed by cronjob\n\n---",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Jobseeker Login",
+			"item": [
+				{
+					"name": "Login as Jobseeker",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 5000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has OK response\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://test2.maukerja.my/login",
+							"protocol": "https",
+							"host": [
+								"test2",
+								"maukerja",
+								"my"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Use this API for login into MauKerja app as registered Jobseeker"
+		},
 		{
 			"name": "Jobseeker Applications",
 			"item": [
@@ -26,15 +90,9 @@
 									"});\r",
 									"\r",
 									"// 2500 is roughly estimation\r",
-									"pm.test(\"Response time is less than 1000ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(2500);\r",
-									"});\r",
-									"\r",
-									"// test for contains value in response\r",
-									"pm.test(\"Test value\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.isFacebook).to.eql(\"Pending\");\r",
-									"});\r",
+									"//pm.test(\"Response time is less than 5000ms\", function () {\r",
+									"//    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+									"//});\r",
 									"\r",
 									"// test that response expect to be json\r",
 									"pm.test(\"Expected result is JSON\", function () {\r",
@@ -49,6 +107,9 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -57,13 +118,13 @@
 								"type": "text"
 							},
 							{
-								"key": "token",
-								"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLm1hdWtlcmphLm15Iiwic3ViIjoiMjcwMzEwIiwiZXhwIjoxNjU2NjMzNjAwLCJ1c2VyIjp7Im5hbWUiOiJBeWFtIiwidXNlcl9pZCI6IjI3MDMxMCIsInBob25lX3ZlcmlmaWVkIjoieWVzIiwiZW1haWxfdmVyaWZpZWQiOiJ5ZXMiLCJiYW5uZWQiOmZhbHNlfSwicm9sZXMiOlsiUk9MRV9KT0JTRUVLRVIiXX0.mjRHFgeypZ_Jec6--OQKUj7EvnbFkKf6xStPfnCS9YY",
+								"key": "auth",
+								"value": "b72d6ec0-803b-47b2-b994-2116dc568a8a",
 								"type": "text"
 							},
 							{
-								"key": "auth",
-								"value": "b72d6ec0-803b-47b2-b994-2116dc568a8a",
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLm1hdWtlcmphLm15Iiwic3ViIjoiMjcwMzEwIiwiZXhwIjoxNjU2NjMzNjAwLCJ1c2VyIjp7Im5hbWUiOiJBeWFtIiwidXNlcl9pZCI6IjI3MDMxMCIsInBob25lX3ZlcmlmaWVkIjoieWVzIiwiZW1haWxfdmVyaWZpZWQiOiJ5ZXMiLCJiYW5uZWQiOmZhbHNlfSwicm9sZXMiOlsiUk9MRV9KT0JTRUVLRVIiXX0.mjRHFgeypZ_Jec6--OQKUj7EvnbFkKf6xStPfnCS9YY",
 								"type": "text"
 							}
 						],
@@ -92,14 +153,9 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "Jobseeker Login",
-			"item": [
+				},
 				{
-					"name": "Login as Jobseeker",
+					"name": "Retrieve Jobseeker Saved Jobs",
 					"event": [
 						{
 							"listen": "test",
@@ -109,16 +165,8 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Successful POST request\", function () {\r",
-									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response time is less than 200ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Status code name has OK response\", function () {\r",
-									"    pm.response.to.have.status(\"OK\");\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -126,19 +174,29 @@
 						}
 					],
 					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"rasahndelokndelok@gmail.com\",\r\n    \"password\" : \"12345678\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+						"auth": {
+							"type": "noauth"
 						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic bWs6a2lsbGpz",
+								"type": "text"
+							},
+							{
+								"key": "auth",
+								"value": "b72d6ec0-803b-47b2-b994-2116dc568a8a",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLm1hdWtlcmphLm15Iiwic3ViIjoiMjcwMzEwIiwiZXhwIjoxNjU2NjMzNjAwLCJ1c2VyIjp7Im5hbWUiOiJBeWFtIiwidXNlcl9pZCI6IjI3MDMxMCIsInBob25lX3ZlcmlmaWVkIjoieWVzIiwiZW1haWxfdmVyaWZpZWQiOiJ5ZXMiLCJiYW5uZWQiOmZhbHNlfSwicm9sZXMiOlsiUk9MRV9KT0JTRUVLRVIiXX0.mjRHFgeypZ_Jec6--OQKUj7EvnbFkKf6xStPfnCS9YY",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "https://test2.maukerja.my/login",
+							"raw": "https://test2.maukerja.my/mkrbapi/mobile/jobseeker/jobs/saved/1",
 							"protocol": "https",
 							"host": [
 								"test2",
@@ -146,15 +204,220 @@
 								"my"
 							],
 							"path": [
-								"login"
+								"mkrbapi",
+								"mobile",
+								"jobseeker",
+								"jobs",
+								"saved",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://test2.maukerja.my/mkrbapi/mobile/job/apply/checkresume",
+							"protocol": "https",
+							"host": [
+								"test2",
+								"maukerja",
+								"my"
+							],
+							"path": [
+								"mkrbapi",
+								"mobile",
+								"job",
+								"apply",
+								"checkresume"
 							]
 						}
 					},
 					"response": []
 				}
+			],
+			"description": "Retrieve detailed applications information from Jobseeker. This APIs collection also including with Jobseeker applied job, saved jobs and so on",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Jobseeker Profile",
+			"item": [
+				{
+					"name": "Retrieve Jobseeker Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic bWs6a2lsbGpz",
+								"type": "text"
+							},
+							{
+								"key": "auth",
+								"value": "b72d6ec0-803b-47b2-b994-2116dc568a8a",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLm1hdWtlcmphLm15Iiwic3ViIjoiMjcwMzEwIiwiZXhwIjoxNjU2NjMzNjAwLCJ1c2VyIjp7Im5hbWUiOiJBeWFtIiwidXNlcl9pZCI6IjI3MDMxMCIsInBob25lX3ZlcmlmaWVkIjoieWVzIiwiZW1haWxfdmVyaWZpZWQiOiJ5ZXMiLCJiYW5uZWQiOmZhbHNlfSwicm9sZXMiOlsiUk9MRV9KT0JTRUVLRVIiXX0.mjRHFgeypZ_Jec6--OQKUj7EvnbFkKf6xStPfnCS9YY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://test2.maukerja.my/mkrbapi/mobile/jobseeker/profile",
+							"protocol": "https",
+							"host": [
+								"test2",
+								"maukerja",
+								"my"
+							],
+							"path": [
+								"mkrbapi",
+								"mobile",
+								"jobseeker",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Jobseeker Profile Completeness",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic bWs6a2lsbGpz",
+								"type": "text"
+							},
+							{
+								"key": "auth",
+								"value": "b72d6ec0-803b-47b2-b994-2116dc568a8a",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLm1hdWtlcmphLm15Iiwic3ViIjoiMjcwMzEwIiwiZXhwIjoxNjU2NjMzNjAwLCJ1c2VyIjp7Im5hbWUiOiJBeWFtIiwidXNlcl9pZCI6IjI3MDMxMCIsInBob25lX3ZlcmlmaWVkIjoieWVzIiwiZW1haWxfdmVyaWZpZWQiOiJ5ZXMiLCJiYW5uZWQiOmZhbHNlfSwicm9sZXMiOlsiUk9MRV9KT0JTRUVLRVIiXX0.mjRHFgeypZ_Jec6--OQKUj7EvnbFkKf6xStPfnCS9YY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://test2.maukerja.my/mkrbapi/mobile/jobseeker/profile/completeness",
+							"protocol": "https",
+							"host": [
+								"test2",
+								"maukerja",
+								"my"
+							],
+							"path": [
+								"mkrbapi",
+								"mobile",
+								"jobseeker",
+								"profile",
+								"completeness"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Retrieve detailed information about Jobseeker profile (profile completeness, user profile and so on)",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		}
 	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{email}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
