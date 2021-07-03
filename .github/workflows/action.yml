@@ -1,6 +1,8 @@
 name: Github Workflow for Postman
 
 on:
+  schedule:
+  - cron: "0 13 * * 1"
   push:
     branches:
     - master
@@ -17,6 +19,10 @@ jobs:
       - name: Install newman reporter
         run: |
           npm install -g newman
+      - name: Hooks postman collections
+        with:
+          apiKey: ${{ secrets.postmanApiKey }}
+          collection: 16486240-5b7143b0-1821-4440-9200-9f9df7cb1d76
       - name: Run Postman Collections
         run: |
-          newman run ./postman_collection.json
+          newman run 16486240-5b7143b0-1821-4440-9200-9f9df7cb1d76
