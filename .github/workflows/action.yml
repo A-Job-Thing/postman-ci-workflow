@@ -13,3 +13,6 @@ jobs:
       - uses: matt-ball/newman-action@master
         with:
           collection: postman_collection.json
+      - name: Run Postman Collections
+        run: |
+          newman run postman_collection.json
