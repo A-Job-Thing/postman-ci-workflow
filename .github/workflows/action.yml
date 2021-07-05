@@ -19,7 +19,7 @@ jobs:
         uses: anthonyvscode/newman-action@v1.1
         with:
           apiKey: ${{ secrets.POSTMANAPIKEY }}
-          collection: 16486240-5b7143b0-1821-4440-9200-9f9df7cb1d76
+          collection: 16486240-dfeef5a1-14b3-498e-ae17-4d180f58143c
           reporters: cli
 
       - name: Run Postman Collections
